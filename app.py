@@ -53,14 +53,12 @@ if st.session_state['logged_in_user'] is None:
                 "Branch": matched_user['branch']
             })
             st.rerun()
-        else:
-            st.error("गलत युजरनेम वा पासवर्ड!")
-else:
+    else:
     current_user = st.session_state['logged_in_user']
     role = current_user['role']
     assigned_branch = current_user['branch']
     
-    col_title, col_logout = st.columns()
+    col_title, col_logout = st.columns(2)
     with col_title:
         st.title("🏛️ Mithila Dashboard")
         st.caption(f"Logged in as: **{current_user['username']}** | Role: **{role.upper()}** | Branch: **{assigned_branch}**")
@@ -76,6 +74,7 @@ else:
             st.rerun()
             
     st.write("---")
+    
 
     # --- ४. मेनु र सब-मेनु संरचना ---
     menu_options = ["Dashboard", "Transaction", "Reports"]
