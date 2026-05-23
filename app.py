@@ -5,7 +5,7 @@ import datetime
 # --- १. डिजाइन, ब्याकग्राउन्ड र वाटरमार्क (Sky Blue Theme + Mithila Logo Watermark) ---
 st.markdown("""
     <style>
-    .stApp { background-color: #e0f2fe; }
+    .stApp { background-color: #ffffff; }
     .watermark {
         position: fixed;
         bottom: 20px;
