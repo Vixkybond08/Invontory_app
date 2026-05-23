@@ -54,11 +54,10 @@ if st.session_state['logged_in_user'] is None:
             })
             st.rerun()
     else:
-    current_user = st.session_state['logged_in_user']
-    role = current_user['role']
-    assigned_branch = current_user['branch']
-    
-    col_title, col_logout = st.columns(2)
+        current_user = st.session_state['logged_in_user']
+        role = current_user['role']
+        assigned_branch = current_user['branch']
+        col_title, col_logout = st.columns(2)
     with col_title:
         st.title("🏛️ Mithila Dashboard")
         st.caption(f"Logged in as: **{current_user['username']}** | Role: **{role.upper()}** | Branch: **{assigned_branch}**")
@@ -72,10 +71,8 @@ if st.session_state['logged_in_user'] is None:
             })
             st.session_state['logged_in_user'] = None
             st.rerun()
-            
-    st.write("---")
+            st.write("---")
     
-
     # --- ४. मेनु र सब-मेनु संरचना ---
     menu_options = ["Dashboard", "Transaction", "Reports"]
     if role == 'super':
