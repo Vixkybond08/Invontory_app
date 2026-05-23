@@ -53,11 +53,16 @@ if st.session_state['logged_in_user'] is None:
                 "Branch": matched_user['branch']
             })
             st.rerun()
-    else:
-        current_user = st.session_state['logged_in_user']
-        role = current_user['role']
-        assigned_branch = current_user['branch']
-        col_title, col_logout = st.columns(2)
+        else:
+            st.error("❌ गलत युजरनेम वा पासवर्ड!")
+
+else:
+    # यूजर लगइन भएको छ - मुख्य डाशबोर्ड देखाउनु
+    current_user = st.session_state['logged_in_user']
+    role = current_user['role']
+    assigned_branch = current_user['branch']
+    
+    col_title, col_logout = st.columns(2)
     with col_title:
         st.title("🏛️ Mithila Dashboard")
         st.caption(f"Logged in as: **{current_user['username']}** | Role: **{role.upper()}** | Branch: **{assigned_branch}**")
@@ -71,7 +76,8 @@ if st.session_state['logged_in_user'] is None:
             })
             st.session_state['logged_in_user'] = None
             st.rerun()
-            st.write("---")
+    
+    st.write("---")
     
     # --- ४. मेनु र सब-मेनु संरचना ---
     menu_options = ["Dashboard", "Transaction", "Reports"]
@@ -123,7 +129,7 @@ if st.session_state['logged_in_user'] is None:
             
             st.text_input("Remarks / Batch Note")
             if st.button("💾 Save Voucher"):
-                st.success("स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भयो।")
+                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भएको छ।")
 
     # ==================== C) REPORTS SUB-MENU ====================
     elif main_menu == "Reports":
@@ -154,7 +160,7 @@ if st.session_state['logged_in_user'] is None:
             
         elif rep_sub == "Backup":
             st.subheader("💾 System Database Backup")
-            st.info("कम्प्युटरमा तत्कालको अप-टु-डेट डाटाबेस फाइल ब्याकअप डाउनलोड गर्नुहोस्।")
+            st.info("✅ कम्प्युटरमा तत्कालको अप-टु-डेट डाटाबेस फाइल ब्याकअप डाउनलोड गर्नुहोस्। यो सुरक्षा उद्देश्यको लागि आवश्यक छ।")
             st.button("📥 Download Up-to-Date Database (.JSON)")
 
     # ==================== D) UTILITIES SUB-MENU ====================
@@ -189,7 +195,7 @@ if st.session_state['logged_in_user'] is None:
             new_b = st.selectbox("Assign Branch", ["Head office", "Dhalkewar", "Nawalpur", "Janakpur", "All"])
             if st.button("Create User"):
                 st.session_state['users'].append({"username": new_u, "password": new_p, "role": new_r, "branch": new_b})
-                st.success(f"युजर {new_u} सफलतापूर्वक थपियो!")
+                st.success(f"✅ युजर {new_u} सफलतापूर्वक थपियो!")
                 
         elif set_sub == "Branch Management":
             st.subheader("🏢 Area & Branch Management System")
@@ -289,7 +295,7 @@ if st.session_state['logged_in_user'] is None:
                                     "area": chosen_area,
                                     "branch": chosen_branch_name
                                 })
-                                st.success(f"शाखा '{chosen_branch_name}' थपियो!")
+                                st.success(f"✅ शाखा '{chosen_branch_name}' थपियो!")
                             
                             st.session_state["show_add_form"] = False
                             st.session_state["edit_index"] = None
@@ -346,6 +352,5 @@ if st.session_state['logged_in_user'] is None:
             
         elif set_sub == "Query and Coding":
             st.subheader("💻 Download System Code & Related Files")
-            st.info("यो एपको पूर्ण सोर्स कोड स्थानीय कम्प्युटरमा सुरक्षित गर्नुहोस्।")
+            st.info("✅ यो एपको पूर्ण सोर्स कोड र सम्बन्धित फाइलहरू स्थानीय कम्प्युटरमा सुरक्षित गर्नुहोस्। यसले भविष्यमा रिकभरी गर्न मदत गर्छ।")
             st.button("📥 Download App Source Files (.ZIP)")
-
