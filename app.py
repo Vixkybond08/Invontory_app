@@ -131,7 +131,7 @@ else:
         # ड्यासबोर्डको केन्द्रमा आधिकारीक SMS कभर पिक्चर लोड गर्ने
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
         st.image(
-            "https://via.placeholder.com/600x300?text=Mithila+SMS+Dashboard",
+            "https://raw.githubusercontent.com/Vixkybond08/Invontory_app/main/logo.png",
             caption="Mithila Stocks Management System (SMS)",
             use_container_width=True
         )
