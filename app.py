@@ -206,11 +206,169 @@ else:
                 st.session_state['users'].append({"username": new_u, "password": new_p, "role": new_r, "branch": new_b})
                 st.success(f"युजर {new_u} सफलतापूर्वक थपियो!")
                 
-        elif set_sub == "Branch Management":
-            st.subheader("🏢 Add, Edit, Delete Branch")
-            st.text_input("Branch Name (e.g., Bardibas Branch)")
-            st.button("Add Branch")
+               elif set_sub == "Branch Management":
+            st.subheader("🏢 Area & Branch Management System")
             
+            # १. आधिकारिक ४६ वटा ब्रान्चहरूको पूर्ण डाटाबेस लिस्ट (Excel File Anusar)
+            if 'branch_database' not in st.session_state:
+                st.session_state['branch_database'] = [
+                    {"sno": 1, "area": "Head Office", "branch": "Head office"},
+                    {"sno": 2, "area": "Janakpur", "branch": "Dhalkewar"},
+                    {"sno": 3, "area": "Mahamadpur", "branch": "Nawalpur"},
+                    {"sno": 4, "area": "Janakpur", "branch": "Janakpur"},
+                    {"sno": 5, "area": "Choharwa", "branch": "Godar"},
+                    {"sno": 6, "area": "Janakpur", "branch": "Prakauli"},
+                    {"sno": 7, "area": "Janakpur", "branch": "Nigaul"},
+                    {"sno": 8, "area": "Choharwa", "branch": "Padariya"},
+                    {"sno": 9, "area": "Choharwa", "branch": "Bhediya"},
+                    {"sno": 10, "area": "Choharwa", "branch": "Laxmipur"},
+                    {"sno": 11, "area": "Choharwa", "branch": "Chhoharwa"},
+                    {"sno": 12, "area": "Mahamadpur", "branch": "Mohamadpur"},
+                    {"sno": 13, "area": "Mahamadpur", "branch": "Nijgadh"},
+                    {"sno": 14, "area": "Mahamadpur", "branch": "Solti"},
+                    {"sno": 15, "area": "Mahamadpur", "branch": "Babargunj"},
+                    {"sno": 16, "area": "Mahamadpur", "branch": "Valuhi"},
+                    {"sno": 17, "area": "Janakpur", "branch": "Ramgopalpur"},
+                    {"sno": 18, "area": "Janakpur", "branch": "Khariyani"},
+                    {"sno": 19, "area": "Janakpur", "branch": "Hanspur"},
+                    {"sno": 20, "area": "Janakpur", "branch": "Sonama"},
+                    {"sno": 21, "area": "Choharwa", "branch": "Dhabauli"},
+                    {"sno": 22, "area": "Janakpur", "branch": "Bahurwa"},
+                    {"sno": 23, "area": "Janakpur", "branch": "Sangrampur"},
+                    {"sno": 24, "area": "Mahamadpur", "branch": "Dhangada"},
+                    {"sno": 25, "area": "Mahamadpur", "branch": "Chakarghata"},
+                    {"sno": 26, "area": "Janakpur", "branch": "Laxminiya"},
+                    {"sno": 27, "area": "Janakpur", "branch": "Sarpallo"},
+                    {"sno": 28, "area": "Choharwa", "branch": "Khairbona"},
+                    {"sno": 29, "area": "Choharwa", "branch": "Chajana"},
+                    {"sno": 30, "area": "Janakpur", "branch": "Mahdaiya"},
+                    {"sno": 31, "area": "Janakpur", "branch": "Bijalpura"},
+                    {"sno": 32, "area": "Mahamadpur", "branch": "Harnaiya"},
+                    {"sno": 33, "area": "Choharwa", "branch": "Bhokraha"},
+                    {"sno": 34, "area": "Choharwa", "branch": "Kathauna"},
+                    {"sno": 35, "area": "Mahamadpur", "branch": "Naukelwa"},
+                    {"sno": 36, "area": "Choharwa", "branch": "Saghara"},
+                    {"sno": 37, "area": "Mahamadpur", "branch": "Batraul"},
+                    {"sno": 38, "area": "Mahamadpur", "branch": "Auraiya"},
+                    {"sno": 39, "area": "Janakpur", "branch": "Singyahi"},
+                    {"sno": 40, "area": "Mahamadpur", "branch": "Bageshwori"},
+                    {"sno": 41, "area": "Mahamadpur", "branch": "Nichuta"},
+                    {"sno": 42, "area": "Mahamadpur", "branch": "Inarwari"},
+                    {"sno": 43, "area": "Choharwa", "branch": "Bhagani"},
+                    {"sno": 44, "area": "Choharwa", "branch": "Ganeshpur"},
+                    {"sno": 45, "area": "Choharwa", "branch": "Dumariya"},
+                    {"sno": 46, "area": "Janakpur", "branch": "Parbata"}
+                ]
+
+            # २. नयाँ ब्रान्च इन्सर्ट गर्ने सेक्सन (Add New Branch Toggle UI)
+            if "show_add_form" not in st.session_state:
+                st.session_state["show_add_form"] = False
+            if "edit_index" not in st.session_state:
+                st.session_state["edit_index"] = None
+
+            col_btn1, _ = st.columns([2, 5])
+            with col_btn1:
+                if st.button("➕ Add New Branch", use_container_width=True):
+                    st.session_state["show_add_form"] = True
+                    st.session_state["edit_index"] = None
+
+            # नयाँ ब्रान्च थप्ने वा पुराना एडिट गर्ने पप-अप विन्डो जस्तो फारम
+            if st.session_state["show_add_form"] or st.session_state["edit_index"] is not None:
+                st.write("---")
+                is_edit = st.session_state["edit_index"] is not None
+                st.markdown(f"### {'✏️ Edit Branch Details' if is_edit else '📥 Insert New Branch Details'}")
+                
+                # यदि एडिट मुड हो भने पुरानो भ्यालु लोड गर्ने
+                default_area = "Janakpur"
+                default_branch = ""
+                if is_edit:
+                    idx = st.session_state["edit_index"]
+                    default_area = st.session_state['branch_database'][idx]["area"]
+                    default_branch = st.session_state['branch_database'][idx]["branch"]
+                
+                # १. एरिया छान्ने २. ब्रान्चको नाम लेख्ने
+                area_list = ["Head Office", "Janakpur", "Mahamadpur", "Choharwa"]
+                chosen_area = st.selectbox("Choose Area Office", area_list, index=area_list.index(default_area) if default_area in area_list else 0)
+                chosen_branch_name = st.text_input("Enter Branch Name", value=default_branch)
+                
+                c_save, c_cancel = st.columns([1, 1])
+                with c_save:
+                    if st.button("💾 Save to Insert/Update", type="primary"):
+                        if chosen_branch_name.strip() == "":
+                            st.error("ब्रान्चको नाम खाली हुनुहुँदैन!")
+                        else:
+                            if is_edit:
+                                # पुरानाे सम्पादन (Update) गर्ने
+                                idx = st.session_state["edit_index"]
+                                st.session_state['branch_database'][idx]["area"] = chosen_area
+                                st.session_state['branch_database'][idx]["branch"] = chosen_branch_name
+                                st.success("ब्रान्चको विवरण सफलतापूर्वक परिमार्जन भयो!")
+                            else:
+                                # नयाँ थप्ने (Insert New)
+                                new_sno = len(st.session_state['branch_database']) + 1
+                                st.session_state['branch_database'].append({
+                                    "sno": new_sno,
+                                    "area": chosen_area,
+                                    "branch": chosen_branch_name
+                                })
+                                st.success(f"नयाँ शाखा '{chosen_branch_name}' सफलतापूर्वक थपियो!")
+                            
+                            st.session_state["show_add_form"] = False
+                            st.session_state["edit_index"] = None
+                            st.rerun()
+                with c_cancel:
+                    if st.button("❌ Cancel"):
+                        st.session_state["show_add_form"] = False
+                        st.session_state["edit_index"] = None
+                        st.rerun()
+                st.write("---")
+
+            # ३. एरिया फिल्टर गर्ने ड्रपडाउन अप्सन (मुख्य टेबल भन्दा माथि)
+            st.write("### 🔍 Filter and View Branches")
+            filter_area = st.selectbox("Select Area Office to View Respective Branches", ["All Areas", "Head Office", "Janakpur", "Mahamadpur", "Choharwa"])
+            
+            # कन्डिसन अनुसार फिल्टर लागू गर्ने
+            if filter_area == "All Areas":
+                filtered_list = st.session_state['branch_database']
+            else:
+                filtered_list = [b for b in st.session_state['branch_database'] if b["area"] == filter_area]
+
+            # ४. रेस्पोन्सिभ एन्ड डायनामिक ब्रान्च टेबल (विथ एडिट एन्ड डिलिट बटन)
+            if len(filtered_list) == 0:
+                st.warning("यो एरिया भित्र कुनै शाखाहरू भेटिएनन्।")
+            else:
+                # टेबलको हेडर कोलम
+                h1, h2, h3, h4 = st.columns([1, 3, 3, 2])
+                h1.markdown("**S.No**")
+                h2.markdown("**Area Office**")
+                h3.markdown("**Branch Name**")
+                h4.markdown("**Actions**")
+                st.write("---")
+                
+                # डेटा रेकर्डहरू देखाउने
+                for b in filtered_list:
+                    # मुख्य डाटाबेसमा यसको वास्तविक इन्डेक्स नम्बर पत्ता लगाउने
+                    actual_idx = next(i for i, item in enumerate(st.session_state['branch_database']) if item["sno"] == b["sno"])
+                    
+                    r1, r2, r3, r4 = st.columns([1, 3, 3, 2])
+                    r1.write(str(b["sno"]))
+                    r2.write(b["area"])
+                    r3.write(b["branch"])
+                    
+                    # एक्शन बटनहरू (Edit र Delete)
+                    btn_edit, btn_del = r4.columns(2)
+                    with btn_edit:
+                        if st.button("✏️", key=f"edit_{b['sno']}", help="Edit this branch"):
+                            st.session_state["edit_index"] = actual_idx
+                            st.session_state["show_add_form"] = False
+                            st.rerun()
+                    with btn_del:
+                        if st.button("🗑️", key=f"del_{b['sno']}", help="Delete this branch"):
+                            st.session_state['branch_database'].pop(actual_idx)
+                            # सिリアル नम्बर (S.No) पुन: मिलाउने
+                            for count, item in enumerate(st.session_state['branch_database'], 1):
+                                item["sno"] = count
+                                
         elif set_sub == "Upload Database":
             st.subheader("📤 Upload Database File from Computer")
             st.file_uploader("कम्प्युटरबाट .json वा .csv डाटाबेस फाइल लोड गर्नुहोस्")
