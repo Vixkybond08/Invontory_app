@@ -11,30 +11,23 @@ st.set_page_config(
 )
 
 # --- १. डिजाइन, ब्याकग्राउन्ड र वाटरमार्क (Google Chrome Dark Mode Theme) ---
+# --- १. डिजाइन, ब्याकग्राउन्ड र वाटरमार्क (Fixed Width Layout with Margins) ---
 st.markdown("""
     <style>
-    /* पूरो साइट फुल स्क्रीन बनाउने */
-    * {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    
     /* गुगल क्रोम जस्तै गाढा कालो ब्याकग्राउन्ड */
     .stApp { 
+        background-color: #1f1f1f !important; 
+    }
+    
+    /* 🏛️ मुख्य मियो: पूरै एप र फोटोलाई A4 Size (लगभग 850px) को दायरामा लक गर्ने र दायाँ-बायाँ बराबर मार्जिन छोड्ने */
+    .block-container {
+        max-width: 850px !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        margin: 0 auto !important;
         background-color: #1f1f1f !important;
-        max-width: 100% !important;
-        width: 100vw !important;
-    }
-    
-    /* मेइन कन्टेन्ट एरिया फुल width */
-    .main {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    
-    /* साइडबार हटाउने */
-    [data-testid="stSidebar"] {
-        display: none !important;
     }
     
     /* सबै अक्षर, शीर्षक, लेबल र विवरणहरूलाई सफा सेतो बनाउने */
