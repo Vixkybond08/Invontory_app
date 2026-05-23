@@ -131,18 +131,18 @@ else:
         # ड्यासबोर्डको केन्द्रमा आधिकारीक SMS कभर पिक्चर लोड गर्ने
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
         st.image(
-            "https://ibb.co", # <--- यहाँ तपाइँको आधिकारीक SMS इमेजको लिङ्क हाल्न सकिन्छ
+            "https://via.placeholder.com/600x300?text=Mithila+SMS+Dashboard",
             caption="Mithila Stocks Management System (SMS)",
             use_container_width=True
         )
         st.markdown("</div>", unsafe_allow_html=True)
         st.write("---")
         
-        # पुराना बक्सहरू हटाइयो। अब यहाँ तल थपिने नयाँ विवरणहरूको लागि खाली ठाउँ तयार छ।
-        st.info("ℹ️ ड्यासबोर्डको मुख्य तस्बिर सेट भयो। अब यसको तल थप्नुपर्ने अन्य विवरणहरू (Information) भन्नुहोस्, म क्रमशः थप्दै जानेछु।")
+        # पुराना बक्सहरू हटाइयो। अब यहाँ तल थपिने नयाँ विवरणहरूको लागि खाली ठाउँ
+        st.info("ℹ️ ड्यासबोर्डको मुख्य तस्बिर सेट भयो। अब यसको तल थप्नुपर्ने अन्य विवरणहरू यहाँ आउनेछन्।")
 
     # ==================== B) TRANSACTION SUB-MENU ====================
-    elif main_menu == "Transaction":
+    elif main_menu == "🔄 Transaction":
         st.header("🔄 Transaction Entries")
         tx_sub = st.selectbox("Sub-Menu", ["Stock In (From Parties)", "Stock Out (Expenses)", "Stock Transfer (To Branch)"])
         
@@ -176,10 +176,10 @@ else:
             
             st.text_input("Remarks / Batch Note")
             if st.button("💾 Save Voucher"):
-                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भयो।")
+                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भएको छ।")
 
     # ==================== C) REPORTS SUB-MENU ====================
-    elif main_menu == "Reports":
+    elif main_menu == "📊 Reports":
         st.header("📊 Financial & Inventory Reports")
         rep_sub = st.selectbox("Select Report Type", ["Ledger", "Inventory Report", "Parties Report", "Branch Report", "Backup"])
         
@@ -211,7 +211,7 @@ else:
             st.button("📥 Download Up-to-Date Database (.JSON)")
 
     # ==================== D) UTILITIES SUB-MENU ====================
-    elif main_menu == "Utilities" and role == 'super':
+    elif main_menu == "🛠️ Utilities" and role == 'super':
         st.header("🛠️ Utilities Menu")
         util_sub = st.radio("Sub Actions", ["User Log Details", "Add Items", "Add Parties"])
         
@@ -230,7 +230,7 @@ else:
             st.text_input("Contact/Address")
             st.button("Add Party")
     # ==================== E) SETUP SUB-MENU ====================
-    elif main_menu == "Setup" and role == 'super':
+    elif main_menu == "⚙️ Setup" and role == 'super':
         st.header("⚙️ System Setup (Unlimited Admin Privileges)")
         set_sub = st.selectbox("Setup Sub-Menu", ["User Management", "Branch Management", "Upload Database", "Query and Coding"])
         
