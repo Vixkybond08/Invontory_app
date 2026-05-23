@@ -97,21 +97,49 @@ else:
             st.rerun()
     
     st.write("---")
-    
-    # --- ४. मेनु र सब-मेनु संरचना ---
-    menu_options = ["Dashboard", "Transaction", "Reports"]
-    if role == 'super':
-        menu_options.extend(["Utilities", "Setup"])
-        
-    main_menu = st.sidebar.selectbox("📂 Main Menu", menu_options)
 
-    # ==================== A) DASHBOARD VIEW ====================
-    if main_menu == "Dashboard":
-        st.header("📈 Business Summary Dashboard")
-        col_a, col_b, col_c = st.columns(3)
-        col_a.metric("Total Stock In", "1,250 Pcs")
-        col_b.metric("Total Stock Out", "450 Pcs")
-        col_c.metric("Active Branches", f"{len(st.session_state.get('branch_database', [])) if 'branch_database' in st.session_state else 46}")
+        # --- ४. एमएस एक्सेल/वर्ड जस्तै टप मेनु बार (Top Navigation Menu Bar) ---
+    menu_options = ["🏠 Dashboard", "🔄 Transaction", "📊 Reports"]
+    if role == 'super':
+        menu_options.extend(["🛠️ Utilities", "⚙️ Setup"])
+        
+    # मेनुलाई एमएस वर्ड जस्तै टपमा तेर्सो बनाउन colums प्रयोग गरिएको
+    st.markdown("### 📋 System Menu Bar")
+    top_cols = st.columns(len(menu_options))
+    
+    # कुन मेनु क्लिक भयो भनेर ट्र्याक राख्ने
+    if 'current_menu' not in st.session_state:
+        st.session_state['current_menu'] = "🏠 Dashboard"
+        
+    for idx, opt in enumerate(menu_options):
+        with top_cols[idx]:
+            # एक्टिभ मेनुलाई प्रष्ट नीलो बटन बनाउने
+            if st.session_state['current_menu'] == opt:
+                if st.button(opt, key=f"menu_{idx}", type="primary", use_container_width=True):
+                    st.session_state['current_menu'] = opt
+                    st.rerun()
+            else:
+                if st.button(opt, key=f"menu_{idx}", type="secondary", use_container_width=True):
+                    st.session_state['current_menu'] = opt
+                    st.rerun()
+                    
+    st.write("---")
+    main_menu = st.session_state['current_menu']
+
+    # ==================== A) DASHBOARD VIEW (नयाँ रूपरेखा) ====================
+    if main_menu == "🏠 Dashboard":
+        # ड्यासबोर्डको केन्द्रमा आधिकारीक SMS कभर पिक्चर लोड गर्ने
+        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+        st.image(
+            "https://ibb.co", # <--- यहाँ तपाइँको आधिकारीक SMS इमेजको लिङ्क हाल्न सकिन्छ
+            caption="Mithila Stocks Management System (SMS)",
+            use_container_width=True
+        )
+        st.markdown("</div>", unsafe_allow_html=True)
+        st.write("---")
+        
+        # पुराना बक्सहरू हटाइयो। अब यहाँ तल थपिने नयाँ विवरणहरूको लागि खाली ठाउँ तयार छ।
+        st.info("ℹ️ ड्यासबोर्डको मुख्य तस्बिर सेट भयो। अब यसको तल थप्नुपर्ने अन्य विवरणहरू (Information) भन्नुहोस्, म क्रमशः थप्दै जानेछु।")
 
     # ==================== B) TRANSACTION SUB-MENU ====================
     elif main_menu == "Transaction":
