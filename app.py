@@ -129,7 +129,7 @@ else:
             
             st.text_input("Remarks / Batch Note")
             if st.button("💾 Save Voucher"):
-                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भएको छ।")
+                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भयो।")
 
     # ==================== C) REPORTS SUB-MENU ====================
     elif main_menu == "Reports":
@@ -160,7 +160,7 @@ else:
             
         elif rep_sub == "Backup":
             st.subheader("💾 System Database Backup")
-            st.info("✅ कम्प्युटरमा तत्कालको अप-टु-डेट डाटाबेस फाइल ब्याकअप डाउनलोड गर्नुहोस्। यो सुरक्षा उद्देश्यको लागि आवश्यक छ।")
+            st.info("✅ कम्प्युटरमा तत्कालको अप-टु-डेट डाटाबेस फाइल ब्याकअप डाउनलोड गर्नुहोस्।")
             st.button("📥 Download Up-to-Date Database (.JSON)")
 
     # ==================== D) UTILITIES SUB-MENU ====================
@@ -352,5 +352,5 @@ else:
             
         elif set_sub == "Query and Coding":
             st.subheader("💻 Download System Code & Related Files")
-            st.info("✅ यो एपको पूर्ण सोर्स कोड र सम्बन्धित फाइलहरू स्थानीय कम्प्युटरमा सुरक्षित गर्नुहोस्। यसले भविष्यमा रिकभरी गर्न मदत गर्छ।")
+            st.info("✅ यो एपको पूर्ण सोर्स कोड र सम्बन्धित फाइलहरू स्थानीय कम्प्युटरमा डाउनलोड गर्नुहोस्।")
             st.button("📥 Download App Source Files (.ZIP)")
