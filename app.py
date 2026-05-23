@@ -2,28 +2,59 @@ import streamlit as st
 import pandas as pd
 import datetime
 
+# --- ०. पूरो स्क्रीन कन्फिगरेसन (Full Screen Configuration) ---
+st.set_page_config(
+    page_title="Mithila Inventory",
+    page_icon="🏛️",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
 # --- १. डिजाइन, ब्याकग्राउन्ड र वाटरमार्क (Google Chrome Dark Mode Theme) ---
 st.markdown("""
     <style>
+    /* पूरो साइट फुल स्क्रीन बनाउने */
+    * {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
     /* गुगल क्रोम जस्तै गाढा कालो ब्याकग्राउन्ड */
     .stApp { 
-        background-color: #1f1f1f !important; 
+        background-color: #1f1f1f !important;
+        max-width: 100% !important;
+        width: 100vw !important;
     }
+    
+    /* मेइन कन्टेन्ट एरिया फुल width */
+    .main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* साइडबार हटाउने */
+    [data-testid="stSidebar"] {
+        display: none !important;
+    }
+    
     /* सबै अक्षर, शीर्षक, लेबल र विवरणहरूलाई सफा सेतो बनाउने */
     h1, h2, h3, h4, h5, h6, p, label, span, div, small {
         color: #ffffff !important;
     }
+    
     /* इनपुट बक्स र ड्रपडाउन बक्सको भित्री डिजाइन मिलाउने */
     .stSelectbox div div div, .stSelectbox ul li, input {
         color: #ffffff !important;
         background-color: #2d2d2d !important;
     }
+    
     /* बटनलाई गाढा नीलो र सेतो अक्षरमा स्पष्ट देखाउने */
     .stButton button {
         color: #ffffff !important;
         background-color: #0b57d0 !important;
         border: none !important;
     }
+    
     /* वाटरमार्कलाई हल्का सेतो स्याडो बनाउने */
     .watermark {
         position: fixed;
@@ -98,7 +129,7 @@ else:
     
     st.write("---")
 
-        # --- ४. एमएस एक्सेल/वर्ड जस्तै टप मेनु बार (Top Navigation Menu Bar) ---
+    # --- ४. एमएस एक्सेल/वर्ड जस्तै टप मेनु बार (Top Navigation Menu Bar) ---
     menu_options = ["🏠 Dashboard", "🔄 Transaction", "📊 Reports"]
     if role == 'super':
         menu_options.extend(["🛠️ Utilities", "⚙️ Setup"])
@@ -131,7 +162,7 @@ else:
         # ड्यासबोर्डको केन्द्रमा आधिकारीक SMS कभर पिक्चर लोड गर्ने
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
         st.image(
-            "https://raw.githubusercontent.com/Vixkybond08/Invontory_app/main/logo.png",
+            "https://via.placeholder.com/600x300?text=Mithila+SMS+Dashboard",
             caption="Mithila Stocks Management System (SMS)",
             use_container_width=True
         )
@@ -139,7 +170,7 @@ else:
         st.write("---")
         
         # पुराना बक्सहरू हटाइयो। अब यहाँ तल थपिने नयाँ विवरणहरूको लागि खाली ठाउँ
-        st.info("ℹ️ ड्यासबोर्डको मुख्य तस्बिर सेट भयो। अब यसको तल थप्नुपर्ने अन्य विवरणहरू यहाँ आउनेछन्।")
+        st.info("ℹ️ ड्यासबोर्डको मुख्य तस्बिर सेट भयो। अब यसको तल थप्नुपर्ने अन्य विवरणहरू!")
 
     # ==================== B) TRANSACTION SUB-MENU ====================
     elif main_menu == "🔄 Transaction":
@@ -176,7 +207,7 @@ else:
             
             st.text_input("Remarks / Batch Note")
             if st.button("💾 Save Voucher"):
-                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भएको छ।")
+                st.success("✅ स्टक भौचर सुरक्षित भयो! इन्भेन्टरी र पार्टी लेजर स्वतः अपडेट भयो!")
 
     # ==================== C) REPORTS SUB-MENU ====================
     elif main_menu == "📊 Reports":
@@ -207,7 +238,7 @@ else:
             
         elif rep_sub == "Backup":
             st.subheader("💾 System Database Backup")
-            st.info("✅ कम्प्युटरमा तत्कालको अप-टु-डेट डाटाबेस फाइल ब्याकअप डाउनलोड गर्नुहोस्।")
+            st.info("✅ कम्प्युटरमा तत्कालको अप-टु-डेट डाटाबेस फाइल ब्याकअप डाउनलोड गर्नुहोस्!")
             st.button("📥 Download Up-to-Date Database (.JSON)")
 
     # ==================== D) UTILITIES SUB-MENU ====================
@@ -399,5 +430,5 @@ else:
             
         elif set_sub == "Query and Coding":
             st.subheader("💻 Download System Code & Related Files")
-            st.info("✅ यो एपको पूर्ण सोर्स कोड र सम्बन्धित फाइलहरू स्थानीय कम्प्युटरमा डाउनलोड गर्नुहोस्।")
+            st.info("✅ यो एपको पूर्ण सोर्स कोड र सम्बन्धित फाइलहरू स्थानीय कम्प्युटरमा डाउनलोड गर्नुहोस्!")
             st.button("📥 Download App Source Files (.ZIP)")
