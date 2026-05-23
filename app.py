@@ -100,55 +100,59 @@ if st.session_state['logged_in_user'] is None:
             st.error("❌ गलत युजरनेम वा पासवर्ड!")
 
 else:
-    # यूजर लगइन भएको छ - मुख्य डाशबोर्ड देखाउनु
     current_user = st.session_state['logged_in_user']
     role = current_user['role']
     assigned_branch = current_user['branch']
     
-    col_title, col_logout = st.columns(2)
-    with col_title:
-        st.title("🏛️ Mithila Dashboard")
-        st.caption(f"Logged in as: **{current_user['username']}** | Role: **{role.upper()}** | Branch: **{assigned_branch}**")
-    with col_logout:
-        if st.button("🚪 Log Out"):
-            st.session_state['user_logs'].append({
-                "User": current_user['username'],
-                "Action": "Log Out",
-                "Date/Time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "Branch": assigned_branch
-            })
-            st.session_state['logged_in_user'] = None
-            st.rerun()
+    # बायाँ कुनाको सानाे डिफ्ल्ट लोगो फिक्स राख्ने
+    st.logo("logo.png", icon_image="logo.png")
     
-    st.write("---")
+    # १. मुख्य हेडिङलाई सेन्टर एलाइनमेन्ट (Center Alignment) गर्ने
+    st.markdown("<h1 style='text-align: center;'>🏛️ Mithila Stock Management System</h1>", unsafe_allow_html=True)
+    st.markdown(f"<p style='text-align: center; color: #888888 !important;'>Logged in as: <b>{current_user['username']}</b> | Role: <b>{role.upper()}</b> | Branch: <b>{assigned_branch}</b></p>", unsafe_allow_html=True)
+    st.write("")
 
-    # --- ४. एमएस एक्सेल/वर्ड जस्तै टप मेनु बार (Top Navigation Menu Bar) ---
+    # २. एमएस एक्सेल जस्तै टप मेनु बार (Top Navigation Menu Bar)
+    # लगआउट बटनलाई पनि मेनु बारकै एउटा भागको रूपमा अन्तिममा जोडिएको छ
     menu_options = ["🏠 Dashboard", "🔄 Transaction", "📊 Reports"]
     if role == 'super':
         menu_options.extend(["🛠️ Utilities", "⚙️ Setup"])
-        
-    # मेनुलाई एमएस वर्ड जस्तै टपमा तेर्सो बनाउन colums प्रयोग गरिएको
-    st.markdown("### 📋 System Menu Bar")
+    
+    menu_options.append("🚪 Log Out") # लगआउट बटन थपियो
+    
+    # मेनु बारको लेआउट बनाउने
     top_cols = st.columns(len(menu_options))
     
-    # कुन मेनु क्लिक भयो भनेर ट्र्याक राख्ने
     if 'current_menu' not in st.session_state:
         st.session_state['current_menu'] = "🏠 Dashboard"
         
     for idx, opt in enumerate(menu_options):
         with top_cols[idx]:
-            # एक्टिभ मेनुलाई प्रष्ट नीलो बटन बनाउने
-            if st.session_state['current_menu'] == opt:
-                if st.button(opt, key=f"menu_{idx}", type="primary", use_container_width=True):
-                    st.session_state['current_menu'] = opt
+            if opt == "🚪 Log Out":
+                # लगआउट बटन थिच्दा सिधै बाहिरिने र रेकर्ड राख्ने
+                if st.button(opt, key=f"menu_{idx}", type="secondary", use_container_width=True):
+                    st.session_state['user_logs'].append({
+                        "User": current_user['username'],
+                        "Action": "Log Out",
+                        "Date/Time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "Branch": assigned_branch
+                    })
+                    st.session_state['logged_in_user'] = None
                     st.rerun()
             else:
-                if st.button(opt, key=f"menu_{idx}", type="secondary", use_container_width=True):
-                    st.session_state['current_menu'] = opt
-                    st.rerun()
+                # एक्टिभ मेनुलाई प्रष्ट नीलो बटन बनाउने
+                if st.session_state['current_menu'] == opt:
+                    if st.button(opt, key=f"menu_{idx}", type="primary", use_container_width=True):
+                        st.session_state['current_menu'] = opt
+                        st.rerun()
+                else:
+                    if st.button(opt, key=f"menu_{idx}", type="secondary", use_container_width=True):
+                        st.session_state['current_menu'] = opt
+                        st.rerun()
                     
     st.write("---")
     main_menu = st.session_state['current_menu']
+
 
     # ==================== A) DASHBOARD VIEW (नयाँ रूपरेखा) ====================
     if main_menu == "🏠 Dashboard":
