@@ -344,7 +344,7 @@ else:
                                 item["sno"] = count
                             st.rerun()
 
-             elif set_sub == "Upload Database":
+        elif set_sub == "Upload Database":
             st.subheader("📤 Upload Database File from Computer")
             st.file_uploader("कम्प्युटरबाट .json वा .csv डाटाबेस फाइल लोड गर्नुहोस्")
             
