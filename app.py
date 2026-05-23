@@ -2,18 +2,37 @@ import streamlit as st
 import pandas as pd
 import datetime
 
-# --- १. डिजाइन, ब्याकग्राउन्ड र वाटरमार्क (Sky Blue Theme + Mithila Logo Watermark) ---
+# --- १. डिजाइन, ब्याकग्राउन्ड र वाटरमार्क (Google Chrome Dark Mode Theme) ---
 st.markdown("""
     <style>
-    .stApp { background-color: #ffffff; }
+    /* गुगल क्रोम जस्तै गाढा कालो ब्याकग्राउन्ड */
+    .stApp { 
+        background-color: #1f1f1f !important; 
+    }
+    /* सबै अक्षर, शीर्षक, लेबल र विवरणहरूलाई सफा सेतो बनाउने */
+    h1, h2, h3, h4, h5, h6, p, label, span, div, small {
+        color: #ffffff !important;
+    }
+    /* इनपुट बक्स र ड्रपडाउन बक्सको भित्री डिजाइन मिलाउने */
+    .stSelectbox div div div, .stSelectbox ul li, input {
+        color: #ffffff !important;
+        background-color: #2d2d2d !important;
+    }
+    /* बटनलाई गाढा नीलो र सेतो अक्षरमा स्पष्ट देखाउने */
+    .stButton button {
+        color: #ffffff !important;
+        background-color: #0b57d0 !important;
+        border: none !important;
+    }
+    /* वाटरमार्कलाई हल्का सेतो स्याडो बनाउने */
     .watermark {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        opacity: 0.08;
+        opacity: 0.04;
         font-size: 70px;
         font-weight: bold;
-        color: #0284c7;
+        color: #ffffff;
         font-family: 'Helvetica', sans-serif;
         pointer-events: none;
         z-index: -1;
